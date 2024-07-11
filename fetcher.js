@@ -14,9 +14,15 @@
 const needle = require('needle');
 const fs = require('fs');
 
+let url = process.argv[2];
+let path = process.argv[3];
+
 const download = function(url, path) {
   needle.get(url, (error, response) => { // needle MUST have it written this way in order to function.
-    
+    if (error) {
+      console.log('couldnt access url or file path');
+      return;
+    }
     if (response && response.body) { // if the response and .body exists
       console.log('webpage accessed, downloading');
       fs.writeFile(path, response.body, () => // this MUST also be a function.
@@ -27,7 +33,7 @@ const download = function(url, path) {
     }
   });
 };
-download('https://google.com/', './index.html');
+download(url, path);
 
 
 
